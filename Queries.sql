@@ -6,7 +6,6 @@ DROP TABLE [dbo].[users]
 DROP TABLE [dbo].[shifts]
 DROP TABLE [dbo].[dayoff]
 DROP TABLE [dbo].[employees]
-DROP SEQUENCE dbo.seq_users
 ---Creating the tables---
 
 CREATE TABLE [dbo].[dayoff](
@@ -42,6 +41,7 @@ CREATE TABLE [dbo].[users](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
 	[username] [varchar](50) NOT NULL,
 	[password] [varchar](50) NOT NULL,
+	[isManager] [bit] NOT NULL, --- 0-NO 1-YES ---
 	[employee_ID] [int] NOT NULL CONSTRAINT FK_users_employees UNIQUE FOREIGN KEY 
 	REFERENCES dbo.employees (ID)
 ) 
@@ -50,11 +50,9 @@ CREATE TABLE [dbo].[users](
 CREATE TABLE [dbo].[shifts](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
 	[work_date] [date] NOT NULL,
-	[start_work_hour] [decimal](5, 3) NOT NULL,
-	[end_work_hour] [decimal](5, 3) NOT NULL,
-	[dayoff_ID] [int] NOT NULL,
-	CONSTRAINT FK_shifts_dayoff FOREIGN KEY (dayoff_ID)
-    REFERENCES dbo.dayoff(ID)
+	[start_work_hour] [decimal](5, 1) NOT NULL,
+	[end_work_hour] [decimal](5, 1) NOT NULL
+	
 )
 
 
@@ -67,6 +65,8 @@ CREATE TABLE [dbo].[EmployeeShiftsRelation](
 
 
 ---Creating the inserts---
+
+---Inserting values into employees table---
 
 INSERT INTO dbo.employees(
 	name,
@@ -95,23 +95,73 @@ VALUES
 	('Jane','Austin', '1967-11-11', 0, '2000-11-15', 'janeaustin@food.com')
 	;---15---
 
-CREATE SEQUENCE seq_users
-MINVALUE 1
-START WITH 1
-INCREMENT BY 1
-CACHE 1000
-cycle;
-	
+---Inserting and updating values into users table---
+
+DECLARE @pass varchar(50) = 'nbu1234';
 INSERT INTO dbo.users
 (
 username,
-password
+password,
+employee_ID,
+isManager
 )
-
-VALUES
-('user' + CONVERT(varchar,NEXT VALUE FOR seq_users), 
-CONVERT(varchar,NEXT VALUE FOR seq_users))
+SELECT  dbo.employees.name + '.' + dbo.employees.surname, 
+		@pass,
+		dbo.employees.ID,
+		0
+FROM dbo.employees
 ;
+
+UPDATE dbo.users
+SET dbo.users.isManager = 1
+WHERE dbo.users.ID = 1;
+
+---Inserting values into shifts table---
+
+DECLARE @d date='2019-12-01' 
+WHILE @d<'2020-01-01'
+    BEGIN
+        INSERT INTO dbo.shifts(work_date,start_work_hour,end_work_hour) 
+        VALUES (@d,10,22)					--inserting date
+        SET @d=DATEADD(DAY,1,@d)	--movin' one day ahead
+    END
+
+UPDATE dbo.shifts
+SET dbo.shifts.end_work_hour = 24
+WHERE DAY(dbo.shifts.work_date) = 7 
+	OR DAY(dbo.shifts.work_date) = 14
+	OR DAY(dbo.shifts.work_date) = 21
+	OR DAY(dbo.shifts.work_date) = 28;
+
+---Inserting values into EmloyeeShiftRel table---
+--neopakovanie zamestantnca, pracovnikov pridavat po 6,
+--ak sa opakuje --> novy random, 
+--ak sa neopakuje --> pridaj zamestannca
+--ak je uz 6 zamestnancov, zvys sichtaID
+
+DECLARE @rEmployee int
+DECLARE @rShifts int= 1
+DECLARE @i int
+
+WHILE @rShifts < 32 --celkovy pocet dni v mesiaci
+    BEGIN
+		SET @i = 0
+        WHILE @i < 6
+			BEGIN
+				SET @rEmployee = round(rand()*14+1,0)
+				IF ( SELECT employee_ID FROM dbo.EmployeeShiftsRelation )
+					BEGIN
+						
+					END
+				INSERT INTO dbo.EmployeeShiftsRelation(shifts_ID,employee_ID) 
+				VALUES (@rShifts,@rEmployee)
+				SET @i = @i + 1
+			END
+		SET @rShifts = @rShifts + 1
+    END
+
+
+
 
 /*ALTER TABLE dbo.users
 ADD CONSTRAINT FK_users_employees FOREIGN KEY (employee_ID)
