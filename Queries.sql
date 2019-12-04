@@ -139,22 +139,22 @@ WHERE DAY(dbo.shifts.work_date) = 7
 --ak sa neopakuje --> pridaj zamestannca
 --ak je uz 6 zamestnancov, zvys sichtaID
 
-DECLARE @rEmployee int
+DECLARE @rEmployee int = 1
 DECLARE @rShifts int= 1
-DECLARE @i int
+DECLARE @i int= 1
 
 WHILE @rShifts < 32 --celkovy pocet dni v mesiaci
     BEGIN
-		SET @i = 0
-        WHILE @i < 6
+		SET @i = 1
+        WHILE @i < 7
 			BEGIN
-				SET @rEmployee = round(rand()*14+1,0)
-				IF ( SELECT employee_ID FROM dbo.EmployeeShiftsRelation )
+				IF (@rEmployee = 16 )
 					BEGIN
-						
+						SET @rEmployee = 1
 					END
 				INSERT INTO dbo.EmployeeShiftsRelation(shifts_ID,employee_ID) 
 				VALUES (@rShifts,@rEmployee)
+				SET @rEmployee = @rEmployee + 1
 				SET @i = @i + 1
 			END
 		SET @rShifts = @rShifts + 1
