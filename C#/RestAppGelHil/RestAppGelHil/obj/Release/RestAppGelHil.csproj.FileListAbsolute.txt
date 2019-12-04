@@ -95,3 +95,7 @@ C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Releas
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Release\RestAppGelHil.csproj.CopyComplete
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Release\RestAppGelHil.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Release\RestAppGelHil.pdb
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.dll
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.SqlServer.dll
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.xml
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.SqlServer.xml
