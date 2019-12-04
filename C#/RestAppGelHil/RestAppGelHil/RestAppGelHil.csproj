@@ -188,8 +188,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\dayoffsController.cs" />
+    <Compile Include="Controllers\EmployeeDayoffsRelationsController.cs" />
     <Compile Include="Controllers\employeesController.cs" />
+    <Compile Include="Controllers\EmployeeShiftsRelationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\shiftsController.cs" />
+    <Compile Include="Controllers\usersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DayoffCalendar.aspx.cs">
       <DependentUpon>DayoffCalendar.aspx</DependentUpon>
@@ -201,8 +206,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\dayoffs.cs" />
+    <Compile Include="Models\EmployeeDayoffsRelations.cs" />
     <Compile Include="Models\employees.cs" />
+    <Compile Include="Models\EmployeeShiftsRelations.cs" />
     <Compile Include="Models\RestAppGelHilContext.cs" />
+    <Compile Include="Models\shifts.cs" />
+    <Compile Include="Models\users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

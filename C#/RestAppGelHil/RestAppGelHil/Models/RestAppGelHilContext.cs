@@ -20,5 +20,15 @@ namespace RestAppGelHil.Models
         }
 
         public System.Data.Entity.DbSet<RestAppGelHil.Models.employees> employees { get; set; }
+
+        public System.Data.Entity.DbSet<RestAppGelHil.Models.dayoffs> dayoffs { get; set; }
+
+        public System.Data.Entity.DbSet<RestAppGelHil.Models.EmployeeDayoffsRelations> EmployeeDayoffRelations { get; set; }
+
+        public System.Data.Entity.DbSet<RestAppGelHil.Models.EmployeeShiftsRelations> EmployeeShiftsRelations { get; set; }
+
+        public System.Data.Entity.DbSet<RestAppGelHil.Models.shifts> shifts { get; set; }
+
+        public System.Data.Entity.DbSet<RestAppGelHil.Models.users> users { get; set; }
     }
 }

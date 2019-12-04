@@ -1,14 +1,14 @@
 ---Droppin' the tables & sequences---
 
-DROP TABLE dbo.EmployeeDayoffRelation
-DROP TABLE [dbo].[EmployeeShiftsRelation]
+DROP TABLE dbo.EmployeeDayoffsRelations
+DROP TABLE [dbo].[EmployeeShiftsRelations]
 DROP TABLE [dbo].[users]
 DROP TABLE [dbo].[shifts]
-DROP TABLE [dbo].[dayoff]
+DROP TABLE [dbo].[dayoffs]
 DROP TABLE [dbo].[employees]
 ---Creating the tables---
 
-CREATE TABLE [dbo].[dayoff](
+CREATE TABLE [dbo].[dayoffs](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
 	[reason] [nchar](10) NOT NULL,
 	[additional_description] [varchar](50) NULL,
@@ -30,11 +30,13 @@ CREATE TABLE [dbo].[employees](
 	
 )
 
-CREATE TABLE [dbo].[EmployeeDayoffRelation](
+CREATE TABLE [dbo].[EmployeeDayoffsRelations](
+	[ID] INT IDENTITY NOT NULL,
     employee_ID int NOT NULL,
-    dayoff_ID int NOT NULL,
+    dayoffs_ID int NOT NULL,
 	FOREIGN KEY (employee_ID) REFERENCES employees(ID), 
-    FOREIGN KEY (dayoff_ID) REFERENCES dayoff(ID)
+    FOREIGN KEY (dayoffs_ID) REFERENCES dayoffs(ID),
+	PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
 CREATE TABLE [dbo].[users](
@@ -56,11 +58,13 @@ CREATE TABLE [dbo].[shifts](
 )
 
 
-CREATE TABLE [dbo].[EmployeeShiftsRelation](
+CREATE TABLE [dbo].[EmployeeShiftsRelations](
+	[ID] INT IDENTITY NOT NULL,
     employee_ID int NOT NULL,
     shifts_ID int NOT NULL,
 	FOREIGN KEY (employee_ID) REFERENCES employees(ID), 
-    FOREIGN KEY (shifts_ID) REFERENCES shifts(ID)
+    FOREIGN KEY (shifts_ID) REFERENCES shifts(ID),
+	PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
 
@@ -152,7 +156,7 @@ WHILE @rShifts < 32 --celkovy pocet dni v mesiaci
 					BEGIN
 						SET @rEmployee = 1
 					END
-				INSERT INTO dbo.EmployeeShiftsRelation(shifts_ID,employee_ID) 
+				INSERT INTO dbo.EmployeeShiftsRelations(shifts_ID,employee_ID) 
 				VALUES (@rShifts,@rEmployee)
 				SET @rEmployee = @rEmployee + 1
 				SET @i = @i + 1

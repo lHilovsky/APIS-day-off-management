@@ -49,6 +49,8 @@ C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\roslyn
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\roslyn\VBCSCompiler.exe
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\roslyn\VBCSCompiler.exe.config
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Antlr3.Runtime.dll
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.dll
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.SqlServer.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Microsoft.AI.Agent.Intercept.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Microsoft.AI.DependencyCollector.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -72,6 +74,8 @@ C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\System
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\System.Web.WebPages.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\System.Web.WebPages.Razor.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\WebGrease.dll
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.xml
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.SqlServer.xml
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Newtonsoft.Json.xml
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\System.Net.Http.Formatting.xml
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\System.Web.Helpers.xml
@@ -90,12 +94,7 @@ C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Micros
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Microsoft.AI.WindowsServer.xml
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Microsoft.AI.Web.xml
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.csprojAssemblyReference.cache
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.csproj.CoreCompileInputs.cache
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.csproj.CopyComplete
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.pdb
-C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.dll
-C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.SqlServer.dll
-C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.xml
-C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\bin\EntityFramework.SqlServer.xml
