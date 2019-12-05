@@ -16,13 +16,13 @@ namespace RestAppGelHil.Controllers
     {
         private RestAppGelHilContext db = new RestAppGelHilContext();
 
-        // GET: api/employees
+        //GET: api/employees
         public IQueryable<employees> Getemployees()
         {
             return db.employees;
         }
 
-        // GET: api/employees/5
+        //GET: api/employees/5
         [ResponseType(typeof(employees))]
         public IHttpActionResult Getemployees(int id)
         {
