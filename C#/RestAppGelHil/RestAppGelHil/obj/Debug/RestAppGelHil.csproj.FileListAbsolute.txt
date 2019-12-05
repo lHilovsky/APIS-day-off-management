@@ -98,3 +98,4 @@ C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.csproj.CopyComplete
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.dll
 C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.pdb
+C:\School\APIS\APIS-day-off-management\C#\RestAppGelHil\RestAppGelHil\obj\Debug\RestAppGelHil.csprojAssemblyReference.cache

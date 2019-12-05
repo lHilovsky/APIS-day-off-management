@@ -10,6 +10,17 @@ namespace RestAppGelHil
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.Routes.MapHttpRoute(
+                "ShiftsApi",                                           // Route name
+                "shifts/employee/{entryDate}",                            // URL with parameters
+                new { controller = "shifts", action = "GetEmployeesOnShift" }  // Parameter defaults
+            );
+
+            // config.Routes.MapHttpRoute(
+            //    "EmployeeShiftsApi",                                           // Route name
+            //    "EmployeeShiftsRelations/{shift_ID}",                            // URL with parameters
+            //    new { controller = "EmployeeShiftsRelations", action = "GetByShiftID" }  // Parameter defaults
+            //);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

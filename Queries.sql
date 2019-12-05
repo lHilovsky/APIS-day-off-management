@@ -44,6 +44,8 @@ CREATE TABLE [dbo].[users](
 	[username] [varchar](50) NOT NULL,
 	[password] [varchar](50) NOT NULL,
 	[isManager] [bit] NOT NULL, --- 0-NO 1-YES ---
+	[change_request] [int] NOT NULL, --- 0-NO REQUEST OTHER(EMPLOYEEid)-REQUESTED ---
+	[shift_change] [int] NOT NULL,
 	[employee_ID] [int] NOT NULL CONSTRAINT FK_users_employees UNIQUE FOREIGN KEY 
 	REFERENCES dbo.employees (ID)
 ) 
@@ -107,12 +109,17 @@ INSERT INTO dbo.users
 username,
 password,
 employee_ID,
-isManager
+isManager,
+[change_request],
+[shift_change]
 )
 SELECT  dbo.employees.name + '.' + dbo.employees.surname, 
 		@pass,
 		dbo.employees.ID,
+		0,
+		0,
 		0
+		
 FROM dbo.employees
 ;
 

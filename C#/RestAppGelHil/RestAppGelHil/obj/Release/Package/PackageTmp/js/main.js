@@ -1,4 +1,97 @@
 let today = new Date();
+let isLoggedIn = 0;
+let loggeduserid = 0;
+
+function check_login() {
+    if (isLoggedIn == 2) {
+        $('#calendar__page').hide();
+        $('#approvals__page').show();
+        $('#login_page').hide();
+        //$('.menu__item').removeClass('menu__item--active');
+        //$(this).addClass('menu__item--active');
+        $('.page').removeClass('visible');
+        $('.page').addClass('hidden');
+        $('#approvals__page').removeClass('hidden');
+        $('#approvals__page').addClass('visible');
+        $('#people_list').html('');
+    } else if (isLoggedIn == 1) {
+        $('#login_page').hide();
+        $('#approvals__page').hide();
+        $('#calendar__page').show();
+        //$('.menu__item').removeClass('menu__item--active');
+        //$(this).addClass('menu__item--active');
+        $('.page').removeClass('visible');
+        $('.page').addClass('hidden');
+        $('#calendar__page, #toolbar__page, #legend').removeClass('hidden');
+        $('#calendar__page, #toolbar__page, #legend').addClass('visible');
+        $('#people_list').html('');
+        $.get("api/users/" + loggeduserid, function (user) {
+            var approveRequest = '<div class="dashboard__request" shift-change="approve-' + user.change_request + '-'+user.shift_change+ '">Approve change</div>';
+            var rejectRequest = '<div class="dashboard__request_remove" shift-change="reject-' + user.change_request + '-' + user.shift_change + '">Reject change</div>';
+           $.get("api/users/", function (el) {
+                el.forEach(function (eli) {
+                    if (user.change_request === eli.ID) {
+                        user_name = eli.username.split('.');
+                        abbr = user_name[0].charAt(0).toUpperCase() + user_name[1].charAt(0).toUpperCase();
+                        full_name = user_name[0].charAt(0).toUpperCase() + user_name[0].slice(1) + ' ' +
+                            user_name[1].charAt(0).toUpperCase() + user_name[1].slice(1);
+                        $('#people_list').append('<div ' +
+                            'style = "' + toRGB(eli.username) + '" ' +
+                            'class = "calendar__people"' +
+                            'user-name = "' + full_name + '" ' +
+                            'user-abbr = "' + abbr + '" ' +
+                            'user-id = "' + eli.ID + '"' +
+                            '>' + abbr + '</div>' +
+                            '<div class="dashboard__name"' +
+                            '>' + full_name + '</div>' + approveRequest + rejectRequest);
+                        setTimeout(check_login, 10000);
+                    }
+                });
+            });
+        });
+    }
+    else {
+        $('#approvals__page').hide();
+        $('#calendar__page').hide();
+        $('#login_page').show();
+        $('.page').removeClass('visible');
+        $('.page').addClass('hidden');
+        $('#login__page').removeClass('hidden');
+        $('#login__page').addClass('visible');
+        $('#people_list').html('');
+    }
+}
+check_login();
+$(document).ready(function () {
+    $("#but_submit").click(function () {
+        var username = $("#txt_uname").val().trim();
+        var password = $("#txt_pwd").val().trim();
+        console.log(username);
+        console.log(password);
+        if (username != "" && password != "") {
+            $.get("api/users/", function (el) {
+                el.forEach(function (eli) {
+                    if (eli.username === username) {
+                        if (eli.password === password) {
+                            if (eli.isManager) {
+                                isLoggedIn = 2;
+                            }
+                            else {
+                                isLoggedIn = 1;
+                            }
+                            loggeduserid = eli.ID;
+                            //loggeduser = eli;
+                        }
+                        else {
+                            alert('Username or password is incorrect.');
+                        }
+                    }
+                });
+                check_login();
+            });
+        }
+    });
+});
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 let selectedMonth = currentMonth;
@@ -13,7 +106,35 @@ let nextMonthAndYear = $(".next-month-year");
 let previousMonthAndYear = $(".previous-month-year");
 showCalendar(currentMonth, currentYear);
 
+$(document).on('click', '[shift-change]', function (e) {
+    var change = $(e.target).attr('shift-change').split('-');
+    if (change[0] === "approve") {
+        console.log(change)
+        $.get("api/EmployeeShiftsRelations/", function (eli) {
+            eli.forEach(function (el) {
+                if (el.employee_ID === Number(change[1]) && el.shifts_ID === Number(change[2])) {
+                    obj = {
+                        "ID": el.ID,
+                        "employee_ID": loggeduserid,
+                        "shifts_ID": el.shifts_ID
+                    };
+                    $.ajax({
+                        type: "PUT",
+                        url: "api/EmployeeShiftsRelations/",
+                        contentType: "application/json",
+                        data: JSON.stringify(obj)
+                    });
+                }
+            });
+            
+        });
+        
+    }
+    else {
 
+    }
+    //check_login();
+});
 $(document).on('click','[day-of-month]',function(e) {
     // $(e.target).attr('day-of-month'); // toto je dany datum - poslat niekam do funkcie asi
     if ($(e.target).hasClass('calendar__invalid_day')) {
@@ -181,28 +302,43 @@ function showCalendar(month, year) {
                     cell.addClass("calendar__selected_day");
                 } // color today's date
                 var currentCounter = 0;
-                names = ["Edvards Adel", "Rosheen Ghassan", "Ayaka Nor", "Vassily Bishal", "Rene Lachtna", "Bistra Ayomide", "Toki Odovacar", 
-                "Nuria Zakkai", "Arthur Jabin", "Shaked Reynold", "Olga Bozena", "Irvine Nirmala", "Constant Jarmil", "Vlatka Torvald"]
-                nameAbbr = ["EA", "RG", "AN", "VB", "RL", "BA", "TO", "NZ", "AJ", "SR", "OB", "IN", "CJ", "VT"];
-                if (j*(i+1)%7!==0 && j%6!==0) { // simulate queries
-                    // [:TODO:] pridat citanie z databazy
-                    for (var q = 0 ; q < names.length; q++) {
-	                    if (Math.floor(Math.random() * 10)%2==0) {
-	                        cell.append(`<div `+
-	                        	`user-name = "`+names[q]+`" `+
-	                        	`user-abbr="`+nameAbbr[q]+`" `+
-	                        	`user-id="`+Number(q+1)+`" `+
-	                        	`class="calendar__people" style="`+toRGB(names[q])+`"`+
-	                        	`>`+nameAbbr[q]+`</div>`);
-	                        currentCounter+=1;
-	                    }
-                    }
-                }
-                if (currentCounter>10) {
+ 
+                    $.get(`shifts/employee/`+year+`-`+Number(month+1)+`-`+cellText, function (data) {
+                        data.forEach(function (el) {
+                            abbr = el.name[0] + el.surname[0];
+                            name = el.name + ' ' + el.surname;
+                            cell.append(`<div ` +
+                                `user-name = "` + name + `" ` +
+                                `user-abbr="` + abbr + `" ` +
+                                `user-id="` + el.ID + `" ` +
+                                `class="calendar__people" style="` + toRGB(name) + `"` +
+                                `>` + abbr + `</div>`);
+                            currentCounter += 1;
+                        });
+                    
+                });
+                //names = ["Edvards Adel", "Rosheen Ghassan", "Ayaka Nor", "Vassily Bishal", "Rene Lachtna", "Bistra Ayomide", "Toki Odovacar", 
+                //"Nuria Zakkai", "Arthur Jabin", "Shaked Reynold", "Olga Bozena", "Irvine Nirmala", "Constant Jarmil", "Vlatka Torvald"]
+                //nameAbbr = ["EA", "RG", "AN", "VB", "RL", "BA", "TO", "NZ", "AJ", "SR", "OB", "IN", "CJ", "VT"];
+                //if (j*(i+1)%7!==0 && j%6!==0) { // simulate queries
+                //    // [:TODO:] pridat citanie z databazy
+                //    for (var q = 0 ; q < names.length; q++) {
+	               //     if (Math.floor(Math.random() * 10)%2==0) {
+	               //         cell.append(`<div `+
+	               //         	`user-name = "`+names[q]+`" `+
+	               //         	`user-abbr="`+nameAbbr[q]+`" `+
+	               //         	`user-id="`+Number(q+1)+`" `+
+	               //         	`class="calendar__people" style="`+toRGB(names[q])+`"`+
+	               //         	`>`+nameAbbr[q]+`</div>`);
+	               //         currentCounter+=1;
+	               //     }
+                //    }
+                //}
+                if (currentCounter>=10) {
                     cell.addClass("calendar__full_day");
-                } else if (currentCounter>6) {
+                } else if (currentCounter>=6) {
                     cell.addClass("calendar__almost_full_day");
-                } else if (currentCounter>0) {
+                } else if (currentCounter>=0) {
                     cell.addClass("calendar__not_full_day");
                 }
                 cell.append(`<div class="calendar__number">`+date+`</div>`);

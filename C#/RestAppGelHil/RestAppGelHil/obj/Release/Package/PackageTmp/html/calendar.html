@@ -1,12 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DayoffCalendar.aspx.cs" Inherits="RestAppGelHil.DayoffCalendar" %>
-
-
-
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<html>
+<head>
 	<title>Hilo's awesome day-off planer</title>
-	<link rel="stylesheet" type="text/css" href="./css/calendar_style.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="../css/calendar_style.css" media="screen"/>
 	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -49,21 +45,6 @@
 	    </div>
 	    <div id="approvals__page" class="page hidden">
 	    	asdkasldaslkdaskldjalskjdaslkdjl
-	    </div>
-          <div id="login__page" class="page hidden">
-	    	<div id="div_login">
-                <h1>Login</h1>
-                <div id="message"></div>
-                <div>
-                    <input type="text" class="textbox" id="txt_uname" name="txt_uname" placeholder="Username" />
-                </div>
-                <div>
-                    <input type="password" class="textbox" id="txt_pwd" name="txt_pwd" placeholder="Password"/>
-                </div>
-                <div>
-                    <input type="button" value="Submit" name="but_submit" id="but_submit" />
-                </div>
-            </div>
 	    </div>
 	    
 	    <table id="legend" class="page" style="width: 100%; margin: 2em 0 0 0">
@@ -110,7 +91,7 @@
 	      </div>
 	      <div class="avatar__name">Name Surname</div>
 	    </div>
-	    <%--<nav class="menu">
+	    <nav class="menu">
 	      <!-- <a class="menu__item" href="#">
 	        <i class="menu__icon fa fa-home"></i>
 	        <span class="menu__text">overview</span>
@@ -139,7 +120,7 @@
 	        <i class="menu__icon fa fa-sliders"></i>
 	        <span class="menu__text">measurements</span>
 	      </a> -->
-	    </nav>--%>
+	    </nav>
 	    <div class="dashboard">
 		    <div id="people_list">
 		    	
@@ -150,6 +131,6 @@
 	    <div class="copyright">copyright &copy; 2019</div>
 	  </sidebar>
 	</div>
-	<script src="js/main.js"></script>
+	<script src="../js/main.js"></script>
 </body>
 </html>
