@@ -8,14 +8,21 @@ DROP TABLE [dbo].[dayoffs]
 DROP TABLE [dbo].[employees]
 ---Creating the tables---
 
+CREATE TABLE [dbo].[shifts](
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
+	[work_date] [date] NOT NULL,
+	[start_work_hour] [decimal](5, 1) NOT NULL,
+	[end_work_hour] [decimal](5, 1) NOT NULL
+	
+)
+
 CREATE TABLE [dbo].[dayoffs](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
 	[reason] [nchar](10) NOT NULL,
 	[additional_description] [varchar](50) NULL,
 	[confirmation] [bit] NOT NULL,
-	[start_date][date] NOT NULL,
-	[end_date][date] NOT NULL,
-	[shifts_ID][int]NOT NULL
+	[shifts_ID][int] NOT NULL CONSTRAINT FK_dayoffs_shifts UNIQUE FOREIGN KEY 
+	REFERENCES dbo.shifts (ID)
 )
 
 CREATE TABLE [dbo].[employees](
@@ -51,13 +58,7 @@ CREATE TABLE [dbo].[users](
 ) 
 
 
-CREATE TABLE [dbo].[shifts](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
-	[work_date] [date] NOT NULL,
-	[start_work_hour] [decimal](5, 1) NOT NULL,
-	[end_work_hour] [decimal](5, 1) NOT NULL
-	
-)
+
 
 
 CREATE TABLE [dbo].[EmployeeShiftsRelations](
