@@ -20,7 +20,7 @@ CREATE TABLE [dbo].[dayoffs](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
 	[reason] [nchar](10) NOT NULL,
 	[additional_description] [varchar](50) NULL,
-	[confirmation] [bit] NOT NULL,
+	[confirmation] [bit] NOT NULL, --0 confirmed, 1 unconfirmed(requested)--
 	[shifts_ID][int] NOT NULL CONSTRAINT FK_dayoffs_shifts UNIQUE FOREIGN KEY 
 	REFERENCES dbo.shifts (ID)
 )

@@ -16,12 +16,6 @@ namespace RestAppGelHil
                 new { controller = "shifts", action = "GetEmployeesOnShift" }  // Parameter defaults
             );
 
-            // config.Routes.MapHttpRoute(
-            //    "EmployeeShiftsApi",                                           // Route name
-            //    "EmployeeShiftsRelations/{shift_ID}",                            // URL with parameters
-            //    new { controller = "EmployeeShiftsRelations", action = "GetByShiftID" }  // Parameter defaults
-            //);
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

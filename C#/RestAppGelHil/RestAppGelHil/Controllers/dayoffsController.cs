@@ -21,7 +21,6 @@ namespace RestAppGelHil.Controllers
         {
             return db.dayoffs;
         }
-
         // GET: api/dayoffs/5
         [ResponseType(typeof(dayoffs))]
         public IHttpActionResult Getdayoffs(int id)

@@ -87,10 +87,11 @@ sidebar {
                          "avatar"
                          "menu"
                          "people_list"
+                         "."
                          "dashboard"
                          "copyright";
     grid-template-columns: 1fr;
-    grid-template-rows: 50px auto auto auto 1fr 50px;
+    grid-template-rows: 50px auto auto auto auto auto 50px;
   }
   
   .menu {
@@ -246,8 +247,6 @@ sidebar {
 }
 
 html {
-  overflow-y: hidden;
-  overflow-x: hidden;
   background-color: var(--snow);
 }
 main {

@@ -24,11 +24,71 @@ function check_login() {
         $('#approvals__page').removeClass('hidden');
         $('#approvals__page').addClass('visible');
         $('#people_list').html('');
-        $('#user-avatar').attr('src', get_gravatar(loggeduser.username+'.restappgelhilapp@azurewebsites.net',70));
+        $('#user-avatar').attr('src', get_gravatar(loggeduser.username+'@azurewebsites.net',70));
         user_name = loggeduser.username.split('.');
         full_name = user_name[0].charAt(0).toUpperCase() + user_name[0].slice(1) + ' ' +
                             user_name[1].charAt(0).toUpperCase() + user_name[1].slice(1);
         $('#user-avatar-name').text(full_name);
+        $.get("api/employees/", function (obj) {
+            $('#approvals__page').html('');
+            $('#approvals__page').append(`<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table class="tg" style="undefined;table-layout: fixed; width: 514px">
+<colgroup>
+<col style="width: 165px">
+<col style="width: 161px">
+<col style="width: 188px">
+</colgroup>
+  <tr>
+    <th class="tg-0lax" colspan="3">Approvals</th>
+  </tr>`);
+            obj.forEach(function (dejtaE) {
+                $.get("api/EmployeeDayoffsRelations/", function (obj1) {
+                    
+                    obj1.forEach(function (dejtaED) {
+                        if (dejtaE.ID === dejtaED.employee_ID) {
+                            console.log('aa');
+                            $.get("api/dayoffs/", function (obj2) {
+                                obj2.forEach(function (dejtaD) {
+                                    if (dejtaD.ID === dejtaED.dayoffs_ID) {
+                                        console.log('bb');
+                                        $.get("api/shifts/", function (obj3) {
+                                            obj3.forEach(function (dejtaS) {
+                                                if (dejtaD.shifts_ID === dejtaS.ID && dejtaD.confirmation==true) {
+                                                    console.log('c');
+                                                    var id_dayoffs = dejtaD.ID;
+                                                    var name = dejtaE.name;
+                                                    var surname = dejtaE.surname;
+                                                    var work_date = dejtaS.work_date;
+                                                    var reason = dejtaD.reason;
+                                                    $('#approvals__page').append(`<tr>`);
+                                                    $('#approvals__page').append(`
+<td class="tg-0pky">
+                    <div>Name: `+ name + ` ` + surname + `</div>
+                    <div>Day: `+ work_date + `</div>
+                    <div>Reason: `+ reason + `</div></td>
+                `);
+                                                    $('#approvals__page').append(`<td approval-id="approve-` + id_dayoffs + `" class="tg-0pky dashboard__request">Approve</td>`);
+                                                    $('#approvals__page').append(`<td approval-id="reject-` + id_dayoffs + `" class="tg-0pky dashboard__request_remove">Decline</td>`);
+                                                    $('#approvals__page').append('</tr>');
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+            });
+            $('#approvals__page').append(`
+</table>`);
+        });
     } else if (isLoggedIn == 1) {
         $('#login_page').hide();
         $('#approvals__page').hide();
@@ -40,7 +100,7 @@ function check_login() {
         $('#calendar__page, #toolbar__page, #legend').removeClass('hidden');
         $('#calendar__page, #toolbar__page, #legend').addClass('visible');
         $('#people_list').html('');
-        $('#user-avatar').attr('src', get_gravatar(loggeduser.username+'.restappgelhilapp@azurewebsites.net',70));
+        $('#user-avatar').attr('src', get_gravatar(loggeduser.username+'@azurewebsites.net',70));
         user_name = loggeduser.username.split('.');
         full_name = user_name[0].charAt(0).toUpperCase() + user_name[0].slice(1) + ' ' +
                             user_name[1].charAt(0).toUpperCase() + user_name[1].slice(1);
@@ -84,6 +144,54 @@ function check_login() {
     }
 }
 check_login();
+
+
+
+$(document).ready(function () {
+    $(document).on('click', "#but_submit_dayoff", function (e) {
+        var reason = $("#txt_reason_dayoff").val().trim();
+        var shift_id = Number($("#message_dayoff").attr('shift-id'));
+        $.get("api/dayoffs/", function (el) {
+            objwxt = {
+                "reason": reason,
+                "confirmation": true,
+                "shifts_ID": shift_id
+            }
+            $.ajax({
+                type: "POST",
+                url: "api/dayoffs/",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(objwxt),
+                success: function (data) {
+                    objwxt2 = {
+                        "ID": Number(Date().now),
+                        "employee_ID": loggeduser.ID,
+                        "dayoffs_ID": data.ID
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "api/EmployeeDayoffsRelations/",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(objwxt2),
+                        success: function (data) { },
+                        failure: function (errMsg) {
+                            alert(errMsg);
+                        }
+                    });
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+        });
+    });
+});
+
+
+
+
 $(document).ready(function () {
     $("#but_submit").click(function () {
         var username = $("#txt_uname").val().trim();
@@ -126,6 +234,46 @@ let monthAndYear = $(".current-month-year");
 let nextMonthAndYear = $(".next-month-year");
 let previousMonthAndYear = $(".previous-month-year");
 showCalendar(currentMonth, currentYear);
+
+
+$(document).on('click', '[approval-id]', function (e) {
+    var change = $(e.target).attr('approval-id').split('-');
+    if (change[0] === "approve") {
+        $.get("api/dayoffs/" + change[1] + "/", function (el) {
+            el.confirmation = 0;
+            $.ajax({
+                type: "PUT",
+                url: "api/dayoffs/" + change[1] + "/",
+                contentType: "application/json",
+                data: JSON.stringify(el)
+            }).done(function () {
+                check_login();});
+        });
+    }
+    else if (change[0] === "reject") {
+        $.get("api/dayoffs/" + change[1] + "/", function (el) {
+            $.ajax({
+                type: "DELETE",
+                url: "api/EmployeeDayoffsRelations/" + el.ID + "/",
+                success: function () {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "api/dayoffs/" + change[1] + "/",
+                        success: function () {
+                            check_login();
+                        }
+                    })
+                }
+            });
+        });
+
+    }
+});
+
+
+
+
+
 
 $(document).on('click', '[shift-change]', function (e) {
     var change = $(e.target).attr('shift-change').split('-');
@@ -249,8 +397,21 @@ function fillUpDashboard(e) {
                         'user-id = "' + $(tempDiv[i]).attr('user-id') + '"' +
                         '>' + $(tempDiv[i]).attr('user-abbr') + '</div>' +
                         '<div class="dashboard__name"' +
-                        '>' + $(tempDiv[i]).attr('user-name') + '</div>' +requestChange);
+                        '>' + $(tempDiv[i]).attr('user-name') + '</div>' + requestChange);
                 }
+                $('#dashboard').html('');
+                $('#dashboard').append(`
+                    <div id="div_login_dayoff">
+                        <h1>Day off</h1>
+                        <div id="message_dayoff" shift-id="`+el.ID+`"></div>
+                        <div>
+                            <input type="text" style="width:100%;margin-bottom: 1px;" class="textbox" id="txt_reason_dayoff" name="txt_reason_dayoff" placeholder="Reason" />
+                            <!-- $('#txt_uname_dayoff').val() check if input is empty -->
+                </div>
+                        <div>
+                            <input class="dashboard__request" type="button" value="Request day off" name="but_submit_dayoff" id="but_submit_dayoff" />
+                        </div>
+                    </div>`)
             }
             else {
                 shift_id_change = 0;

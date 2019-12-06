@@ -106,9 +106,9 @@
 	    <div class="logo">Hilo's awesome day-off planner</div>
 	    <div class="avatar">
 	      <div class="avatar__img">
-	        <img src="https://picsum.photos/70" alt="avatar">
+	        <img id="user-avatar" src="https://picsum.photos/70" alt="avatar">
 	      </div>
-	      <div class="avatar__name">Name Surname</div>
+	      <div id="user-avatar-name"class="avatar__name">Not logged in.</div>
 	    </div>
 	    <%--<nav class="menu">
 	      <!-- <a class="menu__item" href="#">
@@ -146,6 +146,7 @@
 	    	</div>
 		</div>
 		<div id="dashboard">
+	    	
 		</div>
 	    <div class="copyright">copyright &copy; 2019</div>
 	  </sidebar>

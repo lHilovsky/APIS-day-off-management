@@ -91,7 +91,7 @@ sidebar {
                          "dashboard"
                          "copyright";
     grid-template-columns: 1fr;
-    grid-template-rows: 50px auto auto 20em auto auto 50px;
+    grid-template-rows: 50px auto auto auto auto auto 50px;
   }
   
   .menu {
@@ -247,8 +247,6 @@ sidebar {
 }
 
 html {
-  overflow-y: hidden;
-  overflow-x: hidden;
   background-color: var(--snow);
 }
 main {
