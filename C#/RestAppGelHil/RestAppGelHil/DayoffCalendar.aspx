@@ -106,9 +106,9 @@
 	    <div class="logo">Hilo's awesome day-off planner</div>
 	    <div class="avatar">
 	      <div class="avatar__img">
-	        <img src="https://picsum.photos/70" alt="avatar">
+	        <img id="user-avatar" src="https://picsum.photos/70" alt="avatar">
 	      </div>
-	      <div class="avatar__name">Name Surname</div>
+	      <div id="user-avatar-name"class="avatar__name">Not logged in.</div>
 	    </div>
 	    <%--<nav class="menu">
 	      <!-- <a class="menu__item" href="#">
@@ -146,6 +146,20 @@
 	    	</div>
 		</div>
 		<div id="dashboard">
+	    	<div id="div_login">
+                <h1>Day off</h1>
+                <div id="message"></div>
+                <div>
+                    <input type="text" style="width:100%;margin-bottom: 1px;" class="textbox" id="txt_uname_dayoff" name="txt_uname_dayoff" placeholder="Reason" /> 
+                    <!-- $('#txt_uname_dayoff').val() check if input is empty -->
+                </div>
+                <div>
+                    <input type="password" style="width:100%;margin-bottom: 1px;" class="textbox" id="txt_pwd_dayoff" name="txt_pwd_dayoff" placeholder="Additional description"/>
+                </div>
+				<div>
+					<input class="dashboard__request" type="button" value="Request day off" name="but_submit_dayoff" id="but_submit_dayoff" />
+				</div>
+            </div>
 		</div>
 	    <div class="copyright">copyright &copy; 2019</div>
 	  </sidebar>
