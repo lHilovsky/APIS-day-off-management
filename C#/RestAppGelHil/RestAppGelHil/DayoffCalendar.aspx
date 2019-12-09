@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-	<title>Hilo's awesome day-off planer</title>
+	<title>Barmy's awesome day-off planer</title>
 	<link rel="stylesheet" type="text/css" href="./css/calendar_style.css" media="screen"/>
-	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
 	<script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -38,10 +38,33 @@
 	      </div>
 	      <div class="search-input">
 	        <!-- <input type="text" value="Search"> -->
-	        <input type="text" value="Search" 
+	        <%--<input type="text" value="Search" 
 	        	onblur="if (this.value == '') {this.value = 'Search';this.style.color = 'var(--silver-chalice)';} else {this.style.color = 'var(--slate-gray)';}"
- 				onfocus="if (this.value == 'Search') {this.value = '';this.style.color = 'var(--slate-gray)';} else {this.style.color = 'var(--slate-gray)';}" />
-	        <i class="fa fa-search"></i>
+ 				onfocus="if (this.value == 'Search') {this.value = '';this.style.color = 'var(--slate-gray)';} else {this.style.color = 'var(--slate-gray)';}" />--%>
+			<table>
+				<tr>
+					<td>
+						<p>Work days left in this month:</p>
+					</td>
+					<td>
+						<p id="numOfWorkDaysLeft"> ~</p>
+					</td>
+					<td>
+						<i class="fas fa-calendar-day"></i>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>Holidays left in this year:</p>
+					</td>
+					<td>
+						<p id="numOfHolidayDaysLeft"> ~</p>
+					</td>
+					<td>
+						<i class="far fa-smile"></i>
+					</td>
+				</tr>
+			</table>
 	      </div>
 	    </div>
 
@@ -72,19 +95,19 @@
 					<div style="display: inline-flex;border: 1px solid; width: 1em; height: 1em;" class="calendar__day day calendar__full_day">13</div>
 				</th>
 				<th>
-					<div style="display: inline-flex;border:none; width:10em;" class="calendar__day day" >Shift full</div>
+					<div style="display: inline-flex;border:none; width:10em;" class="calendar__day day" >Shift overstaffed</div>
 				</th>
 				<th>
 					<div style="display: inline-flex;border: 1px solid; width: 1em; height: 1em;" class="calendar__day day calendar__not_full_day">15</div>	
 				</th>
 				<th>
-					<div style="display: inline-flex;border:none; width:10em;" class="calendar__day day" >Shift not full</div>
+					<div style="display: inline-flex;border:none; width:10em;" class="calendar__day day" >Shift understaffed</div>
 				</th>
 				<th>
 					<div style="display: inline-flex;border: 1px solid; width: 1em; height: 1em;" class="calendar__day day calendar__almost_full_day">8</div>	
 				</th>
 				<th>
-					<div style="display: inline-flex;border:none; width:10em;" class="calendar__day day" >Shift almost full</div>
+					<div style="display: inline-flex;border:none; width:10em;" class="calendar__day day" >Shift fully staffed</div>
 				</th>
 				<th>
 					<div style="display: inline-flex;border: 2px solid var(--liberty); width: 1em; height: 1em;" class="calendar__day day calendar__selected_day">27</div>	
@@ -103,7 +126,7 @@
 
 	  </main>
 	  <sidebar>
-	    <div class="logo">Hilo's awesome day-off planner</div>
+	    <div class="logo">Barmy's awesome day-off planner</div>
 	    <div class="avatar">
 	      <div class="avatar__img">
 	        <img id="user-avatar" src="https://picsum.photos/70" alt="avatar">
