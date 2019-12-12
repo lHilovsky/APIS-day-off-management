@@ -3,8 +3,9 @@
 DROP TABLE dbo.EmployeeDayoffsRelations
 DROP TABLE [dbo].[EmployeeShiftsRelations]
 DROP TABLE [dbo].[users]
-DROP TABLE [dbo].[shifts]
+
 DROP TABLE [dbo].[dayoffs]
+DROP TABLE [dbo].[shifts]
 DROP TABLE [dbo].[employees]
 ---Creating the tables---
 
@@ -18,11 +19,10 @@ CREATE TABLE [dbo].[shifts](
 
 CREATE TABLE [dbo].[dayoffs](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY,
-	[reason] [nchar](10) NOT NULL,
+	[reason] [varchar](50) NOT NULL,
 	[additional_description] [varchar](50) NULL,
 	[confirmation] [bit] NOT NULL, --0 confirmed, 1 unconfirmed(requested)--
-	[shifts_ID][int] NOT NULL CONSTRAINT FK_dayoffs_shifts UNIQUE FOREIGN KEY 
-	REFERENCES dbo.shifts (ID)
+	[shifts_ID][int] NOT NULL FOREIGN KEY REFERENCES dbo.shifts (ID)
 )
 
 CREATE TABLE [dbo].[employees](
