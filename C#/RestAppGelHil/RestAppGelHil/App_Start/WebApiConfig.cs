@@ -16,6 +16,17 @@ namespace RestAppGelHil
                 new { controller = "shifts", action = "GetEmployeesOnShift" }  // Parameter defaults
             );
 
+            config.Routes.MapHttpRoute(
+                "DayoffsApi",                                           // Route name
+                "dayoffs/pdfAll/{id}",                            // URL with parameters
+                new { controller = "dayoffs", action = "GetDayoffsPDF" }  // Parameter defaults
+            );
+            config.Routes.MapHttpRoute(
+                "DayoffsApiDate",                                           // Route name
+                "dayoffs/pdfAll/{id}/{entryDate}",                            // URL with parameters
+                new { controller = "dayoffs", action = "GetDayoffsPDF" }  // Parameter defaults
+            );
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

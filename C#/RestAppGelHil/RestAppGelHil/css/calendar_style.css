@@ -3,17 +3,35 @@
  * https://www.sketchappsources.com/free-source/2676-calendar-template-sketch-freebie-resource.html
  */
 
+#export-pdf {
+    border: 0.1em;
+    padding: 0.5em;
+    border-radius: 0 1em 1em 0;
+    position: absolute;
+    top: 4.8em;
+    left: 8px;
+    width: 5.5em;
+    background-color: var( --platinum);
+    -webkit-transition: width 0.5s, color 0.5s, background-color 0.5s; /* Safari prior 6.1 */
+    transition: width 0.5s, color 0.5s, background-color 0.5s;
+}
+    #export-pdf:hover {
+        background-color: var(--green-sheen);
+        color: var(--snow);
+        width: 120%;
+        width: 7em;
+        cursor: pointer;
+    }
+
 
 /* WRAPPER */
-
 .wrapper {
-  display: grid;
-  grid-template-rows: 20vw 1fr 70px;
-  grid-template-columns: 1fr;
-  grid-template-areas: "sidebar"
-                       "content";
-  width: 100%; /* unnecessary, but let's keep things consistent */
-  height: calc(100vh - 16px);
+    display: grid;
+    grid-template-rows: 20vw 1fr 70px;
+    grid-template-columns: 1fr;
+    grid-template-areas: "sidebar" "content";
+    width: 100%; /* unnecessary, but let's keep things consistent */
+    height: calc(100vh - 16px);
 }
 
 @media screen and (min-width: 850px) {
@@ -83,15 +101,15 @@ sidebar {
 
 @media screen and (min-width: 850px) {
   sidebar {
-    grid-template-areas: "logo"
-                         "avatar"
-                         "menu"
-                         "people_list"
-                         "."
-                         "dashboard"
-                         "copyright";
+    grid-template-areas:
+        "logo"
+        "avatar"
+        "menu"
+        "people_list"
+        "dashboard"
+        "copyright";
     grid-template-columns: 1fr;
-    grid-template-rows: 50px auto auto auto auto auto 50px;
+    grid-template-rows: 3em 6em 1em auto 16em 14em;
   }
   
   .menu {

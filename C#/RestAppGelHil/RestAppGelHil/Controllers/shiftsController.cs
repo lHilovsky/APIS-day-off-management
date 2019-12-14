@@ -26,9 +26,9 @@ namespace RestAppGelHil.Controllers
         public IHttpActionResult GetEmployeesOnShift(DateTime entryDate)
         {
             //shifts shifts = db.shifts.SqlQuery(String.Format("Select * from dbo.shifts where work_date='{0}'"), entryDate.ToString("dd-MM-yyyy")).FirstOrDefault<shifts>();
-            var shifts = db.employees.SqlQuery("Select employees.* from employees join EmployeeShiftsRelations on employees.ID = EmployeeShiftsRelations.employee_ID where EmployeeShiftsRelations.shifts_ID = (select shifts.ID from shifts where shifts.work_date='" + entryDate.ToString("yyyy-MM-dd") + "')").ToList();
+            var employees = db.employees.SqlQuery("Select employees.* from employees join EmployeeShiftsRelations on employees.ID = EmployeeShiftsRelations.employee_ID where EmployeeShiftsRelations.shifts_ID = (select shifts.ID from shifts where shifts.work_date='" + entryDate.ToString("yyyy-MM-dd") + "')").ToList();
 
-            return Ok(shifts);
+            return Ok(employees);
         }
 
         // GET: api/shifts/5

@@ -34,6 +34,23 @@ namespace RestAppGelHil.Controllers
             return Ok(dayoffs);
         }
 
+        // GET: dayoffs/pdfAll/5
+        [ResponseType(typeof(employees))]
+        public IHttpActionResult GetDayoffsPDF(int id)
+        {
+            var dayoffs = db.employees.SqlQuery("SELECT employees.ID, dayoffs.reason AS email, shifts.work_date AS date_of_birth, employees.name, employees.surname, employees.gender, employees.date_of_hire FROM users JOIN employees ON employees.ID = users.employee_ID JOIN EmployeeDayoffsRelations ON employees.ID = EmployeeDayoffsRelations.employee_ID JOIN dayoffs ON EmployeeDayoffsRelations.dayoffs_ID = dayoffs.ID JOIN shifts ON dayoffs.shifts_ID = shifts.ID WHERE users.ID = " + id).ToList();
+            return Ok(dayoffs);
+        }
+
+        // GET: dayoffs/pdfAll/5/2019-12-05
+        [ResponseType(typeof(employees))]
+        public IHttpActionResult GetDayoffsPDF(int id, DateTime entryDate)
+        {
+            System.Diagnostics.Debug.WriteLine("SELECT e.ID, d.reason AS email, s.work_date AS date_of_birth, e.name, e.surname, e.gender, e.date_of_hire FROM users u JOIN employees e ON e.ID = u.employee_ID JOIN EmployeeDayoffsRelations ed ON e.ID = ed.employee_ID JOIN dayoffs d ON ed.dayoffs_ID = d.ID JOIN shifts s ON d.shifts_ID = s.ID WHERE u.ID = " + id + " AND YEAR(s.work_date) = " + entryDate.ToString("yyyy") + " AND MONTH(s.work_date) = " + entryDate.ToString("MM"));
+            var dayoffs = db.employees.SqlQuery("SELECT d.ID, d.reason AS email, s.work_date AS date_of_birth, e.name, e.surname, e.gender, e.date_of_hire FROM users u JOIN employees e ON e.ID = u.employee_ID JOIN EmployeeDayoffsRelations ed ON e.ID = ed.employee_ID JOIN dayoffs d ON ed.dayoffs_ID = d.ID JOIN shifts s ON d.shifts_ID = s.ID WHERE u.ID = " + id + " AND YEAR(s.work_date) = " + entryDate.ToString("yyyy") + " AND MONTH(s.work_date) = " + entryDate.ToString("MM") + "ORDER BY s.work_date").ToList();
+            return Ok(dayoffs);
+        }
+
         // PUT: api/dayoffs/5
         [ResponseType(typeof(void))]
         public IHttpActionResult Putdayoffs(int id, dayoffs dayoffs)

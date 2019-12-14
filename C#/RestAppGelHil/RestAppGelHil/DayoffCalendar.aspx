@@ -8,10 +8,17 @@
 	<title>Barmy's awesome day-off planer</title>
 	<link rel="stylesheet" type="text/css" href="./css/calendar_style.css" media="screen"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
+	<script 
+		src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" 
+		integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" 
+		crossorigin="anonymous">
+	</script>
 	<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+	  src="https://code.jquery.com/jquery-3.4.1.min.js"
+	  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	  crossorigin="anonymous">
+	</script>
+	<script src="https://raw.githubusercontent.com/MrRio/jsPDF/master/src/modules/html.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -44,7 +51,7 @@
 			<table>
 				<tr>
 					<td>
-						<p>Work days left in this month:</p>
+						<p>Work hours left in this month:</p>
 					</td>
 					<td>
 						<p id="numOfWorkDaysLeft"> ~</p>
@@ -55,7 +62,7 @@
 				</tr>
 				<tr>
 					<td>
-						<p>Holidays left in this year:</p>
+						<p>Paid leave left in this work year:</p>
 					</td>
 					<td>
 						<p id="numOfHolidayDaysLeft"> ~</p>
@@ -73,23 +80,8 @@
 	    <div id="approvals__page" class="page hidden">
 	    	asdkasldaslkdaskldjalskjdaslkdjl
 	    </div>
-          <div id="login__page" class="page hidden">
-	    	<div id="div_login">
-                <h1>Login</h1>
-                <div id="message"></div>
-                <div>
-                    <input type="text" class="textbox" id="txt_uname" name="txt_uname" placeholder="Username" />
-                </div>
-                <div>
-                    <input type="password" class="textbox" id="txt_pwd" name="txt_pwd" placeholder="Password"/>
-                </div>
-                <div>
-                    <input type="button" value="Submit" name="but_submit" id="but_submit" />
-                </div>
-            </div>
-	    </div>
-	    
-	    <table id="legend" class="page" style="width: 100%; margin: 2em 0 0 0">
+
+		<table id="legend" class="page" style="width: 100%; margin: 2em 0 0 0">
 			<tr>
 				<th>
 					<div style="display: inline-flex;border: 1px solid; width: 1em; height: 1em;" class="calendar__day day calendar__full_day">13</div>
@@ -124,14 +116,31 @@
 			</tr>
 		</table>
 
+        <div id="login__page" class="page hidden">
+	    	<div id="div_login">
+                <h1>Login</h1>
+                <div id="message"></div>
+                <div>
+                    <input type="text" class="textbox" id="txt_uname" name="txt_uname" placeholder="Username" />
+                </div>
+                <div>
+                    <input type="password" class="textbox" id="txt_pwd" name="txt_pwd" placeholder="Password"/>
+                </div>
+                <div>
+                    <input type="button" value="Submit" name="but_submit" id="but_submit" />
+                </div>
+            </div>
+	    </div>
+
 	  </main>
 	  <sidebar>
 	    <div class="logo">Barmy's awesome day-off planner</div>
 	    <div class="avatar">
-	      <div class="avatar__img">
-	        <img id="user-avatar" src="https://picsum.photos/70" alt="avatar">
-	      </div>
-	      <div id="user-avatar-name"class="avatar__name">Not logged in.</div>
+			<div class="avatar__img">
+				<img id="user-avatar" src="https://picsum.photos/70" alt="avatar">
+			</div>
+			<div id="user-avatar-name"class="avatar__name">Not logged in.</div>
+			<div id="export-pdf" style="display:none;">Export PDF</div>
 	    </div>
 	    <%--<nav class="menu">
 	      <!-- <a class="menu__item" href="#">

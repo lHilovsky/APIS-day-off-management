@@ -1,9 +1,11 @@
 let today = new Date();
 let isLoggedIn = 0;
 let loggeduser;
-let benevolentnaBulharskaKonstantaDovolenky = 48; // v dnoch
+//let benevolentnaBulharskaKonstantaDovolenky = 48; // v dnoch
+let benevolentnaBulharskaKonstantaDovolenky = 13; // v dnoch dajme tomu ze kazdy uz zobral tak ~35 dni volna, kedze je december, a nejake sa mozno prenesu do dalsieho roka
 let fullDays = new Array();
 let emptyDays = new Array();
+let overstaffedDays = new Array();
 
 function get_gravatar(email, size) {
     // MD5 (Message-Digest Algorithm) by WebToolkit
@@ -26,14 +28,14 @@ function check_login() {
         $('#approvals__page').removeClass('hidden');
         $('#approvals__page').addClass('visible');
         $('#people_list').html('');
-        $('#user-avatar').attr('src', get_gravatar(loggeduser.username+'@azurewebsites.net',70));
+        $('#user-avatar').attr('src', get_gravatar(loggeduser.username + '@azurewebsites.net', 70));
         user_name = loggeduser.username.split('.');
         full_name = user_name[0].charAt(0).toUpperCase() + user_name[0].slice(1) + ' ' +
                             user_name[1].charAt(0).toUpperCase() + user_name[1].slice(1);
         $('#user-avatar-name').text(full_name);
         $.get("api/employees/", function (obj) {
             $('#approvals__page').html('');
-            $('#approvals__page').append(`<style type="text/css">
+            let cell = $(`<style type="text/css">
                                             .tg  {border-collapse:collapse;border-spacing:0;}
                                             .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
                                             .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
@@ -48,7 +50,7 @@ function check_login() {
                                             </colgroup>
                                             <tr>
                                                 <th class="tg-0lax" colspan="3">Approvals</th>
-                                            </tr>`);
+                                            </tr></table>`);
             obj.forEach(function (dejtaE) {
                 $.get("api/EmployeeDayoffsRelations/", function (obj1) {
                     obj1.forEach(function (dejtaED) {
@@ -64,19 +66,19 @@ function check_login() {
                                                     var surname = dejtaE.surname;
                                                     var work_date = dejtaS.work_date;
                                                     var reason = dejtaD.reason;
-                                                    $('#approvals__page').append(`<tr>`);
-                                                    $('#approvals__page').append(`
+                                                    let cell2 = $(`<tr></tr>`);
+                                                    cell2.append(`
                                                         <td class="tg-0pky">
                                                         <div>Name: `+ name + ` ` + surname + `</div>
-                                                        <div>Day: `+ work_date + `</div>
-                                                        <div>Reason: `+ reason + `</div></td>
-                                                    `);
-                                                    $('#approvals__page').append(`<td approval-id="approve-` + id_dayoffs + `" class="tg-0pky dashboard__request">Approve</td>`);
-                                                    $('#approvals__page').append(`<td approval-id="reject-` + id_dayoffs + `" class="tg-0pky dashboard__request_remove">Decline</td>`);
-                                                    $('#approvals__page').append('</tr>');
+                                                        <div>Day: `+ work_date.split('T')[0] + `</div>
+                                                        <div>Reason: `+ reason + `</div>
+                                                        </td>`);
+                                                    cell2.append(`<td approval-id="approve-` + id_dayoffs + `" class="tg-0pky dashboard__request">Approve</td>`);
+                                                    cell2.append(`<td approval-id="reject-` + id_dayoffs + `" class="tg-0pky dashboard__request_remove">Decline</td>`);
+                                                    cell.append(cell2);
                                                 }
                                             });
-                                            $('#approvals__page').append(`</table>`);
+                                            $('#approvals__page').append(cell);
                                         });
                                     }
                                 });
@@ -86,10 +88,27 @@ function check_login() {
                 });
             });
             $('.dashboard').html('');
-            $('.dashboard').append('<div>In this month, i.e.' + Number(currentMonth+1) + '/' + currentYear + ', there are ' + fullDays.length + ' fully staffed days and ' + emptyDays.length + ' understaffed days.</div>');
+            $('.dashboard').append('<div>In this month, ' + months[currentMonth] + '. ' + currentYear + ', there are ' + overstaffedDays.length + ' overstaffed days, ' + fullDays.length + ' fully staffed days and ' + emptyDays.length + ' understaffed days.</div>');
+            $('.dashboard').append('<br />');
+            $('.dashboard').append('<div>Overstaffed days: </div>');
+            if (overstaffedDays.length > 0) {
+                overstaffedDays.forEach(function (el) {
+                    $('.dashboard').append('<div>Overstaffed days: </div>');
+                });
+            }
+            $('.dashboard').append('<br />');
+            $('.dashboard').append('<div>Understaffed days: </div>');
+            if (emptyDays.length > 0) {
+                emptyDays.forEach(function (el) {
+                    $('.dashboard').append('<div>Understaffed days: </div>');
+                });
+            }
+            $('.dashboard').append('<br />');
+            $('.dashboard').append('<div>Employee '+'kokot'+' had worked the largest ammount of weekend days in this month ('+10+').</div>');
         });
     } 
     else if (isLoggedIn == 1) {
+        $('#export-pdf').show();
         $.get("api/EmployeeDayoffsRelations/", function (el) {
             if (typeof el.length != "undefined") {
                 var number = benevolentnaBulharskaKonstantaDovolenky;
@@ -104,19 +123,19 @@ function check_login() {
 
         $.get("api/EmployeeShiftsRelations/", function (el) {
             let hoursToWork = 192;
-            let workday = 12;
+            //let workday = 12;
             if (typeof el.length != "undefined") {
                 el.forEach(function (eli) {
                     if (eli.employee_ID === loggeduser.ID) {
                         $.get("api/shifts/" + eli.shifts_ID + "/", function (elii) {
                             hoursToWork = hoursToWork - Number(elii.end_work_hour - elii.start_work_hour);
-                            $("#numOfWorkDaysLeft").html(Math.round(Number(hoursToWork / 12)));
+                            $("#numOfWorkDaysLeft").html(Math.round(Number(hoursToWork)));
                         });
                     }
                 });
             }
             else {
-                $("#numOfWorkDaysLeft").html(Math.round(Number(hoursToWork / workday)));
+                $("#numOfWorkDaysLeft").html(Math.round(Number(hoursToWork)));
             }
             
         });
@@ -218,7 +237,40 @@ $(document).ready(function () {
     });
 });
 
-
+$(document).ready(function () {
+    $(document).on('click', "#export-pdf", function (e) {
+        $.get("dayoffs/pdfAll/" + loggeduser.ID + "/" + today.getFullYear() + '-' + Number(today.getMonth() + 1) + '-' + today.getDate() + "/", function (obj) {
+            user_name = loggeduser.username.split('.');
+            full_name = user_name[0].charAt(0).toUpperCase() + user_name[0].slice(1) + ' ' +
+                user_name[1].charAt(0).toUpperCase() + user_name[1].slice(1);
+            var pdf = new jsPDF(
+                {
+                    orientation: 'p',
+                    unit: 'mm',
+                    format: 'a4',
+                    putOnlyUsedFonts: true
+                });
+            pdf.setFontSize(20);
+            pdf.setPage(1);
+            pdf.text('Day-off report card for ' + full_name, 20, 30);
+            pdf.setFontSize(10);
+            number = 50;
+            if (typeof obj.length != "undefined") {
+                pdf.text('Number of paid days off scheduled in December: ' + obj.length, 20, number);
+                obj.forEach(function (el) {
+                    number = number + 5;
+                    pdf.text('Date: ' + el.date_of_birth.split('T')[0] + ', Reason: ' + el.email + '.', 20, number);
+                });
+            }
+            number = number + 10;
+            pdf.text('Paid leave left in current work year (in days): ' + $("#numOfHolidayDaysLeft").html(), 20, number);
+            number = number + 10;
+            pdf.text('This document was generated on ' + today.getDate() + '.' + Number(today.getMonth() + 1) + '.' + today.getFullYear() + '.', 120, number);
+            pdf.output('save', 'dayoff_report_' + user_name[0] + '_' + user_name[1] + '_' + Number(today.getMonth() + 1) + '_' + today.getFullYear()+'.pdf');
+        });
+        
+    });
+});
 
 
 $(document).ready(function () {
@@ -571,14 +623,12 @@ function showCalendar(month, year) {
                     if (typeof data.length != "undefined") {
                         if (data.length >= 10) {
                             cell.addClass("calendar__full_day");
+                            overstaffedDays.push(currentDate);
                         } else if (data.length >= 6) {
                             cell.addClass("calendar__almost_full_day");
+                            fullDays.push(currentDate);
                         } else if (data.length >= 0) {
                             cell.addClass("calendar__not_full_day");
-                        }
-                        if (data.length  >= 6) {
-                            fullDays.push(currentDate);
-                        } else if (data.length < 6) {
                             emptyDays.push(currentDate);
                         }
                         data.forEach(function (el) {
