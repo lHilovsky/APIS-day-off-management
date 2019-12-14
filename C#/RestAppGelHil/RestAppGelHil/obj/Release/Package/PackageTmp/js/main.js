@@ -93,14 +93,14 @@ function check_login() {
             $('.dashboard').append('<div>Overstaffed days: </div>');
             if (overstaffedDays.length > 0) {
                 overstaffedDays.forEach(function (el) {
-                    $('.dashboard').append('<div>Overstaffed days: </div>');
+                    $('.dashboard').append('<div>' + el + '</div>');
                 });
             }
             $('.dashboard').append('<br />');
             $('.dashboard').append('<div>Understaffed days: </div>');
             if (emptyDays.length > 0) {
                 emptyDays.forEach(function (el) {
-                    $('.dashboard').append('<div>Understaffed days: </div>');
+                    $('.dashboard').append('<div>' + el + '</div>');
                 });
             }
             $('.dashboard').append('<br />');
@@ -617,9 +617,9 @@ function showCalendar(month, year) {
                     cell.addClass("calendar__current_day");
                     cell.addClass("calendar__selected_day");
                 } // color today's date
-                var currentDate = year+'-'+Number(month+1)+'-'+cellText;
  
                 $.get(`shifts/employee/` + year + `-` + Number(month + 1) + `-` + cellText, function (data) {
+                    var currentDate = year + '-' + Number(month + 1) + '-' + cellText;
                     if (typeof data.length != "undefined") {
                         if (data.length >= 10) {
                             cell.addClass("calendar__full_day");
