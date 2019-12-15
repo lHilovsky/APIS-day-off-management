@@ -21,18 +21,6 @@ namespace RestAppGelHil.Controllers
         {
             return db.EmployeeShiftsRelations;
         }
-
-        // GET: EmployeeShiftsRelations/5
-        //[ResponseType(typeof(EmployeeShiftsRelations))]
-        //public IHttpActionResult GetByShiftID(int shift_ID)
-        //{
-        //    //shifts shifts = db.shifts.SqlQuery(String.Format("Select * from dbo.shifts where work_date='{0}'"), entryDate.ToString("dd-MM-yyyy")).FirstOrDefault<shifts>();
-        //    shifts shifts = db.shifts.SqlQuery("Select * from dbo.shifts where work_date='" + entryDate.ToString("dd-MM-yyyy") + "'").FirstOrDefault<shifts>();
-
-        //    return Ok(shifts);
-        //}
-
-        // GET: api/EmployeeShiftsRelations/5
         [ResponseType(typeof(EmployeeShiftsRelations))]
         public IHttpActionResult GetEmployeeShiftsRelations(int id)
         {
